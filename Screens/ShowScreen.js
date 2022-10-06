@@ -1,13 +1,13 @@
 import { FlatList, StyleSheet, Text, View, Image } from 'react-native'
-import React, {useEffect} from 'react'
+import React, {useEffect,useState} from 'react'
+import yelp from '../api/yelp'
 
-const ShowScreen = ({navigation}) => {
+const ShowScreen = ({navigation,route}) => {
   const [result,setResult]=useState(null)
-  const id = navigation.getParam('id')
+  const {id} = route.params
 
   const getResult= async(id)=>{
     const response=await yelp.get(`/${id}`)
-    console.log(response.data)
     setResult(response.data)
   }
   
@@ -26,7 +26,7 @@ const ShowScreen = ({navigation}) => {
         data={result.photos}
         keyExtractor={(photo)=>photo}
         renderItem={({item})=>{
-          return <Image source={{uri: item}}/>
+          return <Image style={styles.Image} source={{uri: item}}/>
         }}
         />
     </View>
